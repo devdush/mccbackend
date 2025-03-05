@@ -4,13 +4,12 @@ import com.megacitycabs.bookingsystem.model.Users;
 import com.megacitycabs.bookingsystem.service.UsersService;
 import com.megacitycabs.bookingsystem.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -37,6 +36,45 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Users>> getAllUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        // Check if the Authorization header exists
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            // Extract the token by removing "Bearer " prefix
+            String token = authHeader.substring(7);
+            System.out.println("Received Token: " + token);
+        } else {
+            System.out.println("No valid Authorization header found!");
+        }
+
+        return ResponseEntity.ok(usersService.getAllUsers());
+    }
+    // 🔹 Get User By ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Users> getUserById(@PathVariable Long id) {
+        return usersService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // 🔹 Update User
+    @PutMapping("/{id}")
+    public ResponseEntity<Users> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
+        try {
+            Users user = usersService.updateUser(id, updatedUser);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // 🔹 Delete User
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        usersService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
 // Login Request DTO
