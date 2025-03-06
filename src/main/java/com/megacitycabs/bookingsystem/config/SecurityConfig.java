@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/register", "/user/login").permitAll() // Public routes
                         .requestMatchers(HttpMethod.PUT, "/customers/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/drivers/register").permitAll()
                         .anyRequest().authenticated() // All others require authentication
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Add JWT filter
