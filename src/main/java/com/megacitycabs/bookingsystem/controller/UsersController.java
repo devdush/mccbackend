@@ -31,7 +31,7 @@ public class UsersController {
 
         if (user.isPresent()) {
             String token = jwtUtil.generateToken(user.get().getUsername());
-            return ResponseEntity.ok(new AuthResponse(token));
+            return ResponseEntity.ok(new AuthResponse(token, user.get())); // Send both token & user
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
@@ -102,12 +102,18 @@ class LoginRequest {
 // Auth Response DTO
 class AuthResponse {
     private String token;
+    private Users user; // Include user details
 
-    public AuthResponse(String token) {
+    public AuthResponse(String token, Users user) {
         this.token = token;
+        this.user = user;
     }
+
     public String getToken() {
         return token;
     }
 
+    public Users getUser() {
+        return user;
+    }
 }

@@ -22,16 +22,10 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "driver_id")
     private Drivers driver;
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
-    @Column(nullable = false)
-    private String pickupLocation;
-
-    @Column(nullable = false)
-    private String dropoffLocation;
-
-    private double distance;
-
-    private double fare;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status; // PENDING, ACCEPTED, ON_TRIP, COMPLETED, CANCELLED
