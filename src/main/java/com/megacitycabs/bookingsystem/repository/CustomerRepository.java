@@ -3,6 +3,8 @@ package com.megacitycabs.bookingsystem.repository;
 import com.megacitycabs.bookingsystem.model.Costomers;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CustomerRepository extends JpaRepository<Costomers,Long> {
+import java.util.Optional;
 
+public interface CustomerRepository extends JpaRepository<Costomers,Long> {
+    Optional<Costomers> findByUserId(Long userId);
 }

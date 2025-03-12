@@ -25,7 +25,7 @@ public class Order {
     @Column(nullable = false)
     private String status;
     private double distance;
-
+    private String vehicleType;
     private double fare;
     private LocalDateTime orderDate;
 }

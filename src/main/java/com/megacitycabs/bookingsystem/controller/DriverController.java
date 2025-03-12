@@ -1,5 +1,6 @@
 package com.megacitycabs.bookingsystem.controller;
 
+import com.megacitycabs.bookingsystem.model.Costomers;
 import com.megacitycabs.bookingsystem.model.Drivers;
 import com.megacitycabs.bookingsystem.service.DriverService;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +47,13 @@ public class DriverController {
     public ResponseEntity<Void> deleteDriver(@PathVariable Long id) {
         driverService.deleteDriver(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Drivers> getDriverByUserId(@PathVariable Long userId) {
+        Drivers driver = driverService.getDriverByUserId(userId);
+        if (driver == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(driver);
     }
 }

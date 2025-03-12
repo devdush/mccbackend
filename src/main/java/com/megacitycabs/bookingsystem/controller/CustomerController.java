@@ -42,4 +42,12 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Costomers> getCustomerByUserId(@PathVariable Long userId) {
+        Costomers customer = customerService.getCustomerByUserId(userId);
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(customer);
+    }
 }

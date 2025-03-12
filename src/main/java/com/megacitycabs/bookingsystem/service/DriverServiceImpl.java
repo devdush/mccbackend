@@ -1,5 +1,6 @@
 package com.megacitycabs.bookingsystem.service;
 
+import com.megacitycabs.bookingsystem.model.Costomers;
 import com.megacitycabs.bookingsystem.model.Drivers;
 import com.megacitycabs.bookingsystem.repository.DriverRepository;
 import com.megacitycabs.bookingsystem.service.DriverService;
@@ -47,5 +48,10 @@ public class DriverServiceImpl implements DriverService{
     @Override
     public void deleteDriver(Long id) {
         driverRepository.deleteById(id);
+    }
+    @Override
+    public Drivers getDriverByUserId(Long userId) {
+        Optional<Drivers> driver = driverRepository.findByUserId(userId);
+        return driver.orElse(null);
     }
 }
